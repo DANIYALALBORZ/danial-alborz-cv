@@ -1,9 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useParallaxStore } from '../../../store/useParallaxStore';
+
 
 const ThemeToggle = () => {
-    const [theme, setTheme] = useState('auto'); // light, dark, auto
+    const [theme, setTheme] = useState('auto'); // light, dark, auto, live
+    const { isParallaxEnabled, toggleParallax } = useParallaxStore();
 
     useEffect(() => {
         const savedTheme = localStorage.getItem('color-theme') || 'auto';
@@ -51,13 +54,21 @@ const ThemeToggle = () => {
         setTheme(newTheme);
         localStorage.setItem('color-theme', newTheme);
 
+        // اگر تم live انتخاب شد، پارالاکس را فعال کن
+        if (newTheme === 'live' && !isParallaxEnabled) {
+            toggleParallax();
+        } else if (newTheme !== 'live' && isParallaxEnabled) {
+            // اگر تم دیگری انتخاب شد و پارالاکس فعال بود، آن را غیرفعال کن
+            toggleParallax();
+        }
+
         if (newTheme === 'dark') {
             document.documentElement.classList.add('dark');
             document.documentElement.classList.remove('light');
         } else if (newTheme === 'light') {
             document.documentElement.classList.add('light');
             document.documentElement.classList.remove('dark');
-        } else {
+        } else if (newTheme === 'auto') {
             changeTheme();
         }
     };
@@ -73,12 +84,17 @@ const ThemeToggle = () => {
             <button className="auto-mode" onClick={() => handleThemeChange('auto')}>
                 Auto
             </button>
+            <button className="live-mode" onClick={() => handleThemeChange('live')}>
+                Live Theme
+            </button>
             <div
                 className={`mode-toggle ${theme === 'light'
                     ? '!left-0'
                     : theme === 'dark'
                         ? 'translate-x-[90%]'
-                        : '!-right-1'
+                        : theme === 'live'
+                            ? 'translate-x-[180%]'
+                            : '!-right-1'
                     }`}
             ></div>
         </div>

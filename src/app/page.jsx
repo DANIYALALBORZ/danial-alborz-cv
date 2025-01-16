@@ -1,33 +1,10 @@
-// import WigglingCircle from "./components/circle/Circle";
+import Header from './components/Main/Header/page'
 
 const page = () => {
     return (
         <>
 
-
-            <div className="info-card">
-
-                {/* <!-- Circles --> */}
-                <div className="info-outer-circle -top-12 -right-12"></div>
-                <div className="info-inner-circle -top-11 -right-8"></div>
-
-                <div className="info-outer-circle -bottom-12 -left-12"></div>
-                <div className="info-inner-circle -bottom-8 -left-8"></div>
-                {/* <!-- End Circles --> */}
-
-                <img src="/img/Danial_Photo.png" alt="danial alborz picture" className="info-profile-pic" />
-
-                <p className="info-introduce">I AM DANIAL ALBORZ</p>
-
-                <p className="info-job-title">Not a Web designer</p>
-
-                <p className="info-sign">
-                    <span className="text-xl text-[#062838] dark:text-[#dbd9d9]">Nor a Digital Marketer</span><br />
-                    I'M here to grow your Company
-                </p>
-
-                <a className="info-btn" href="#">LET'S DO THIS!</a>
-            </div>
+            <Header />
 
             <img className="brands-bar" src="/img/brands.svg" alt="" />
 

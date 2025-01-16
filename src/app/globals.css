@@ -27,8 +27,6 @@
     .circle {
         clip-path: circle(50% at 50% 50%);
     }
-
-    ;
 }
 
 /* <!-- dark/light mode --> */
@@ -78,7 +76,7 @@
     }
 
     .info-profile-pic {
-        @apply rounded-full w-52 h-52 md:w-56 md:h-56 m-auto mt-8;
+        @apply rounded-full w-52 h-52 md:w-56 md:h-56 m-auto mt-8 !z-10;
     }
 
     .info-introduce {
@@ -96,6 +94,13 @@
     .info-btn {
         @apply bg-[#166FB1] p-4 rounded-2xl text-white font-mono font-bold text-xs lg:text-[1rem] shadow-lg;
     }
+
+    .info-card {
+        position: relative;
+        overflow: hidden;
+        /* سایر استایل‌های موجود */
+    }
+
 
 }
 
