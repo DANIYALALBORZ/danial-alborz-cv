@@ -12,13 +12,6 @@ const Header = () => {
     const scrollMultiplier = getScrollMultiplier();
     const animationMultiplier = getAnimationMultiplier();
 
-    // محاسبه مقدار transform بر اساس سرعت اسکرول
-    // const y = useTransform(
-    //     scrollYProgress,
-    //     [0, 1],
-    //     ["0%", `${50 * scrollMultiplier}%`]
-    // );
-
     // استفاده در انیمیشن‌ها
     const circleAnimation = isParallaxEnabled ? {
         scale: [1, 1.1 * animationMultiplier, 1],
@@ -30,13 +23,19 @@ const Header = () => {
         offset: ["start start", "end start"]
     });
 
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+    const y = useTransform(scrollYProgress, [0, 1], ['0', '8%']);
+
+    const transformStyle = useTransform(
+        scrollYProgress,
+        [0, 1],
+        ['0%', '250%']
+    );
 
     return (
         <motion.div
             ref={ref}
             className="info-card relative"
-            style={isParallaxEnabled ? { y } : undefined}
+            style={isParallaxEnabled ? { y, translateY: '0px' } : undefined}
         >
             {/* Circles */}
             <motion.div
@@ -69,66 +68,73 @@ const Header = () => {
                 } : {}}
             />
 
-            <img src="/img/Danial_Photo.png" alt="danial alborz picture" className="info-profile-pic" />
+            <div className="relative">
 
-            {/* Living Cell SVG Animation */}
-            {isParallaxEnabled && (
-                <motion.div
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute left-1/2 -translate-x-1/2 mt-4"
-                >
-                    <svg width="200" height="200" viewBox="0 0 200 200">
-                        <defs>
-                            <radialGradient id="cellGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                                <stop offset="0%" stopColor="#23ce6b" stopOpacity="0.6" />
-                                <stop offset="100%" stopColor="#06283d" stopOpacity="0.8" />
-                            </radialGradient>
-                            <filter id="goo">
-                                <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-                                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
-                            </filter>
-                        </defs>
+                <img src="/img/Danial_Photo.png" alt="danial alborz picture" className="info-profile-pic z-50" />
 
-                        <motion.circle
-                            cx="100"
-                            cy="100"
-                            r="80"
-                            fill="url(#cellGradient)"
-                            filter="url(#goo)"
-                            animate={{
-                                r: [80, 85, 80],
-                                filter: ["blur(0px)", "blur(2px)", "blur(0px)"]
-                            }}
-                            transition={{
-                                duration: 3,
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                            }}
-                        />
+                {/* Living Cell SVG Animation */}
+                {isParallaxEnabled && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5 }}
+                        style={{
+                            y: transformStyle
+                        }}
+                        className="absolute top-10 left-2 -translate-x-1/2 mt-4 -z-10"
+                    >
+                        <svg width="200" height="200" viewBox="0 0 200 200">
+                            <defs>
+                                <radialGradient id="cellGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                    <stop offset="0%" stopColor="#2373ce" stopOpacity="0.6" />
+                                    <stop offset="100%" stopColor="#06283d" stopOpacity="0.8" />
+                                </radialGradient>
+                                <filter id="goo">
+                                    <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+                                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+                                </filter>
+                            </defs>
 
-                        {[...Array(8)].map((_, i) => (
                             <motion.circle
-                                key={i}
                                 cx="100"
                                 cy="100"
-                                r="15"
-                                fill="rgba(35, 206, 107, 0.5)"
+                                r="80"
+                                fill="url(#cellGradient)"
+                                filter="url(#goo)"
                                 animate={{
-                                    cx: [100 + Math.cos(i * Math.PI / 4) * 60, 100 + Math.cos(i * Math.PI / 4) * 70, 100 + Math.cos(i * Math.PI / 4) * 60],
-                                    cy: [100 + Math.sin(i * Math.PI / 4) * 60, 100 + Math.sin(i * Math.PI / 4) * 70, 100 + Math.sin(i * Math.PI / 4) * 60],
+                                    r: [80, 85, 80],
+                                    filter: ["blur(0px)", "blur(2px)", "blur(0px)"]
                                 }}
                                 transition={{
-                                    duration: 2 + i * 0.2,
+                                    duration: 3,
                                     repeat: Infinity,
                                     ease: "easeInOut"
                                 }}
                             />
-                        ))}
-                    </svg>
-                </motion.div>
-            )}
+
+                            {[...Array(8)].map((_, i) => (
+                                <motion.circle
+                                    key={i}
+                                    cx="100"
+                                    cy="100"
+                                    r="15"
+                                    fill="rgba(35, 203, 206, 0.5)"
+                                    animate={{
+                                        cx: [100 + Math.cos(i * Math.PI / 4) * 60, 100 + Math.cos(i * Math.PI / 4) * 70, 100 + Math.cos(i * Math.PI / 4) * 60],
+                                        cy: [100 + Math.sin(i * Math.PI / 4) * 60, 100 + Math.sin(i * Math.PI / 4) * 70, 100 + Math.sin(i * Math.PI / 4) * 60],
+                                    }}
+                                    transition={{
+                                        duration: 2 + i * 0.2,
+                                        repeat: Infinity,
+                                        ease: "easeInOut"
+                                    }}
+                                />
+                            ))}
+                        </svg>
+                    </motion.div>
+                )}
+
+            </div>
 
             <motion.p
                 className="info-introduce"

@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion'; // برای انیمیشن‌های بهتر
 import { useParallaxStore } from '../../../store/useParallaxStore';
 
-
 const ThemeToggle = () => {
-    const [theme, setTheme] = useState('auto'); // light, dark, auto, live
+    const [theme, setTheme] = useState('auto');
     const { isParallaxEnabled, toggleParallax } = useParallaxStore();
 
     useEffect(() => {
@@ -54,11 +54,9 @@ const ThemeToggle = () => {
         setTheme(newTheme);
         localStorage.setItem('color-theme', newTheme);
 
-        // اگر تم live انتخاب شد، پارالاکس را فعال کن
         if (newTheme === 'live' && !isParallaxEnabled) {
             toggleParallax();
         } else if (newTheme !== 'live' && isParallaxEnabled) {
-            // اگر تم دیگری انتخاب شد و پارالاکس فعال بود، آن را غیرفعال کن
             toggleParallax();
         }
 
@@ -74,29 +72,50 @@ const ThemeToggle = () => {
     };
 
     return (
-        <div className="mode-container">
-            <button className="light-mode" onClick={() => handleThemeChange('light')}>
-                <img src="/img/light-mode.svg" alt="Light Mode" />
-            </button>
-            <button className="dark-mode" onClick={() => handleThemeChange('dark')}>
-                <img src="/img/dark-mode.svg" alt="Dark Mode" />
-            </button>
-            <button className="auto-mode" onClick={() => handleThemeChange('auto')}>
-                Auto
-            </button>
-            <button className="live-mode" onClick={() => handleThemeChange('live')}>
-                Live Theme
-            </button>
-            <div
-                className={`mode-toggle ${theme === 'light'
-                    ? '!left-0'
-                    : theme === 'dark'
-                        ? 'translate-x-[90%]'
-                        : theme === 'live'
-                            ? 'translate-x-[180%]'
-                            : '!-right-1'
+        <div className="mode-container hidden lg:flex gap-2 p-2 bg-gray-100 dark:bg-[#304A65] rounded-lg">
+            <motion.button
+                className={`light-mode p-2 rounded-lg transition-colors ${theme === 'light' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200 dark:hover:bg-sky-700/70'
                     }`}
-            ></div>
+                onClick={() => handleThemeChange('light')}
+                whileTap={{ scale: 0.95 }}
+            >
+                <img
+                    src="/img/light-mode.svg"
+                    alt="Light Mode"
+                    className="w-6 h-6"
+                />
+            </motion.button>
+
+            <motion.button
+                className={`dark-mode p-2 rounded-lg transition-colors ${theme === 'dark' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200 dark:hover:bg-sky-700/70'
+                    }`}
+                onClick={() => handleThemeChange('dark')}
+                whileTap={{ scale: 0.95 }}
+            >
+                <img
+                    src="/img/dark-mode.svg"
+                    alt="Dark Mode"
+                    className="w-6 h-6"
+                />
+            </motion.button>
+
+            <motion.button
+                className={`auto-mode p-2 rounded-lg transition-colors ${theme === 'auto' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200 dark:hover:bg-sky-700/70'
+                    }`}
+                onClick={() => handleThemeChange('auto')}
+                whileTap={{ scale: 0.95 }}
+            >
+                Auto
+            </motion.button>
+
+            <motion.button
+                className={`live-mode p-2 rounded-lg transition-colors ${theme === 'live' ? 'bg-blue-500 text-white' : 'hover:bg-gray-200 dark:hover:bg-sky-700/70'
+                    }`}
+                onClick={() => handleThemeChange('live')}
+                whileTap={{ scale: 0.95 }}
+            >
+                Live Theme
+            </motion.button>
         </div>
     );
 };

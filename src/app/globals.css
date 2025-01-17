@@ -56,6 +56,22 @@
     .my-name {
         @apply font-mono my-4 font-bold text-2xl text-center dark:text-[#dbd9d9];
     }
+
+    .mode-container {
+        transition: all 0.3s ease;
+    }
+
+    .mode-container button {
+        transition: all 0.2s ease;
+    }
+
+    .mode-container button:focus {
+        outline: none,
+            /* ring: 2px,
+        ring-offset: 2px,
+        ring-blue-500; */
+    }
+
 }
 
 /* <!-- end of navbar --> */
