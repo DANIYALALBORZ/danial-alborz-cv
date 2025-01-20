@@ -43,14 +43,16 @@ const MyImpact = () => {
     useEffect(() => {
         if (inView && isParallaxEnabled) {
             controls.start('visible');
+        } else {
+            controls.start('hidden'); // در حالت عادی به حالت hidden برو
         }
     }, [inView, controls, isParallaxEnabled]);
 
     const imageVariants = {
         hidden: {
-            opacity: 0,
-            scale: 1.2,
-            y: 50
+            opacity: isParallaxEnabled ? 0 : 1, // قابلیت opacity در حالت عادی
+            scale: isParallaxEnabled ? 1.2 : 1, // کنترل scale
+            y: isParallaxEnabled ? 50 : 0 // کنترل y
         },
         visible: {
             opacity: 1,
